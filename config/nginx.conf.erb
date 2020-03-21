@@ -1,17 +1,17 @@
 daemon off;
 # Heroku dynos have at least 4 cores.
-worker_processes <%= ENV['NGINX_WORKERS'] || 4 %>;
+worker_processes <%= ENV["NGINX_WORKERS"] || 4 %>;
 
 events {
 	use epoll;
 	accept_mutex on;
-	worker_connections <%= ENV['NGINX_WORKER_CONNECTIONS'] || 1024 %>;
+	worker_connections <%= ENV["NGINX_WORKER_CONNECTIONS"] || 1024 %>;
 }
 
 http {
-	log_format l2met 'measure#nginx.service=$request_time request_id=$http_x_request_id';
-	access_log 'logs/nginx/access.log' l2met;
-	error_log 'logs/nginx/error.log';
+	log_format l2met "measure#nginx.service=$request_time request_id=$http_x_request_id";
+	access_log "logs/nginx/access.log" l2met;
+	error_log "logs/nginx/error.log";
 
 	include mime.types;
 	default_type text/plain;

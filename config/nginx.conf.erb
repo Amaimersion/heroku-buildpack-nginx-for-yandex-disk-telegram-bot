@@ -36,7 +36,7 @@ http {
 	server {
 		listen <%= ENV["PORT"] %>;
 		server_name _;
-		keepalive_timeout 20s;
+		keepalive_timeout 15s;
 
 		location / {
 			proxy_set_header Host $host;

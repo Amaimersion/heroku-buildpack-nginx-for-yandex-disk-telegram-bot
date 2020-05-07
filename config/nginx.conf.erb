@@ -34,6 +34,10 @@ http {
         server_name _;
         keepalive_timeout 15s;
 
+        location /robots.txt {
+            alias src/static/robots/robots.txt;
+        }
+
         location /static/ {
             root src;
             autoindex off;

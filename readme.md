@@ -13,7 +13,9 @@ Some application servers (e.g. Ruby's Unicorn) halt progress when dealing with n
 ### Heroku 16
 * NGINX Version: 1.9.5
 ### Heroku 18
-* NGINX Version: 1.16.1
+* NGINX Version: 1.18.0
+### Heroku 20
+* NGINX Version: 1.18.0
 
 ## Requirements (Proxy Mode)
 
@@ -66,6 +68,12 @@ For example, to get NGINX and Unicorn up and running:
 ```bash
 $ cat Procfile
 web: bin/start-nginx bundle exec unicorn -c config/unicorn.rb
+```
+
+#### nginx debug mode
+```bash
+$ cat Procfile
+web: bin/start-nginx-debug bundle exec unicorn -c config/unicorn.rb
 ```
 
 ### nginx Solo Mode

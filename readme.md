@@ -17,8 +17,8 @@ Some application servers (e.g. Ruby's Unicorn) halt progress when dealing with n
 
 ## Requirements (Proxy Mode)
 
-* Your webserver listens to the socket at `/tmp/nginx.socket`.
-* You touch `/tmp/app-initialized` when you are ready for traffic.
+* Your webserver listens to the socket at `/tmp/nginx-gunicorn.socket`.
+* You touch `/tmp/gunicorn-ready` when you are ready for traffic.
 * You can start your web server with a shell command.
 
 ## Requirements (Solo Mode)
@@ -126,7 +126,7 @@ $ FORCE=1 bin/start-nginx
 
 ### Application/Dyno coordination
 
-The buildpack will not start NGINX until a file has been written to `/tmp/app-initialized`. Since NGINX binds to the dyno's $PORT and since the $PORT determines if the app can receive traffic, you can delay NGINX accepting traffic until your application is ready to handle it. The examples below show how/when you should write the file when working with Unicorn.
+The buildpack will not start NGINX until a file has been written to `/tmp/gunicorn-ready`. Since NGINX binds to the dyno's $PORT and since the $PORT determines if the app can receive traffic, you can delay NGINX accepting traffic until your application is ready to handle it. The examples below show how/when you should write the file when working with Unicorn.
 
 ## Setup
 
@@ -151,9 +151,9 @@ $ git commit -m 'Update procfile for NGINX buildpack'
 Update Unicorn Config
 ```ruby
 require 'fileutils'
-listen '/tmp/nginx.socket'
+listen '/tmp/nginx-gunicorn.socket'
 before_fork do |server,worker|
-	FileUtils.touch('/tmp/app-initialized')
+	FileUtils.touch('/tmp/gunicorn-ready')
 end
 ```
 ```bash
@@ -189,10 +189,10 @@ require 'fileutils'
 preload_app true
 timeout 5
 worker_processes 4
-listen '/tmp/nginx.socket', backlog: 1024
+listen '/tmp/nginx-gunicorn.socket', backlog: 1024
 
 before_fork do |server,worker|
-	FileUtils.touch('/tmp/app-initialized')
+	FileUtils.touch('/tmp/gunicorn-ready')
 end
 ```
 Install Gems

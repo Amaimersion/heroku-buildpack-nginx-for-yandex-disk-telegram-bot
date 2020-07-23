@@ -40,7 +40,7 @@ echo 'buildpack=nginx at=logs-initialized'
 
 if [[ -z "$FORCE" ]]
 then
-  FILE="/tmp/app-initialized"
+  FILE="/tmp/gunicorn-ready"
 
   # We block on app-initialized so that when nginx binds to $PORT
   # are app is ready for traffic.
@@ -55,7 +55,7 @@ fi
 # Start nginx
 (
   # We expect nginx to run in foreground.
-  # We also expect a socket to be at /tmp/nginx.socket.
+  # We also expect a socket to be at /tmp/nginx-gunicorn.socket.
   echo 'buildpack=nginx at=nginx-start'
   bin/nginx -p . -c config/nginx.conf
   echo 'nginx' >$psmgr
